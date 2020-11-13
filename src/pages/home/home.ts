@@ -40,4 +40,9 @@ export class HomePage {
   ionViewDidLeave() {
     this.menu.swipeEnable(true);
   }
+
+  signup() {
+    this.navCtrl.push('SignupPage');
+  }
+  
 }
