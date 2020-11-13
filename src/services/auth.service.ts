@@ -8,7 +8,6 @@ import { StorageService } from "./storage.service";
 
 @Injectable()
 export class AuthService {
-
   jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private http: HttpClient, public storage: StorageService) {}
@@ -24,7 +23,7 @@ export class AuthService {
     let token = authorizationValue.substring(7);
     let user: LocalUser = {
       token: token,
-      email: this.jwtHelper.decodeToken(token).sub
+      email: this.jwtHelper.decodeToken(token).sub,
     };
     this.storage.setLocalUser(user);
   }
@@ -33,5 +32,14 @@ export class AuthService {
     this.storage.setLocalUser(null);
   }
 
-
+  refreshToken() {
+    return this.http.post(
+      `${API_CONFIG.baseUrl}/auth/refresh_token`,
+      {},
+      {
+        observe: "response",
+        responseType: "text",
+      }
+    );
+  }
 }
